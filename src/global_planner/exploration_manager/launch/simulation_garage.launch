@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 <launch>
     <arg name="odom_topic" value="/quad_0/lidar_slam/odom" />
+    <arg name="use_gpu" default="true" />
     <!-- set for mid 360 -->
     <arg name="sensing_horizon_mid360" value="60.0" />
     <arg name="use_mid360" value="true" />
@@ -31,6 +32,7 @@
     </node>
     <include file="$(find mars_drone_sim)/launch/garage.launch">
         <arg name="sensing_horizon" value="$(arg sensing_horizon_mid360)" />
+        <arg name="use_gpu_" value="$(arg use_gpu)" />
     </include>
 
     <include file="$(find epic_planner)/launch/rviz.launch">

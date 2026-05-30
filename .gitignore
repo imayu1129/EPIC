@@ -1,0 +1,11 @@
+# Catkin build artifacts
+build/
+devel/
+logs/
+.catkin_tools/
+
+# Runtime artifacts
+results/
+
+# Downloaded simulation maps (not tracked in git)
+src/MARSIM/map_generator/resource/*.pcd

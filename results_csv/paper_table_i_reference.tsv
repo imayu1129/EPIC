@@ -1,0 +1,5 @@
+paper_scene	method	exp_time_sec↓	avg_vel_mps↑	avg_tm_s↓	max_tm_s↓	exp_fin↑	source
+cave	Proposed	1288.2	2.68	0.09	0.18	Yes	arXiv:2410.14203v2 Table I
+garage	Proposed	716.9	3.10	0.05	0.10	Yes	arXiv:2410.14203v2 Table I
+campus	Proposed	908.2	2.58	0.08	0.24	Yes	arXiv:2410.14203v2 Table I
+cave	Measured	1208.978	2.877	0.101733	0.179941	Yes	Measured run_id=20260530_154002 (FINISH)

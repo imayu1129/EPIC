@@ -216,14 +216,17 @@ void FastExplorationFSM::init(ros::NodeHandle &nh,
   state_pub_ = nh.advertise<visualization_msgs::Marker>("/planning/state", 10);
 
   string odom_topic, cloud_topic;
+    int cloud_odom_sync_queue;
   nh.getParam("odometry_topic", odom_topic);
   nh.getParam("cloud_topic", cloud_topic);
+    nh.param("cloud_odom_sync_queue", cloud_odom_sync_queue, 100);
+    cloud_odom_sync_queue = std::max(10, cloud_odom_sync_queue);
   cloud_sub_.reset(new message_filters::Subscriber<sensor_msgs::PointCloud2>(
       nh, cloud_topic, 1));
   odom_sub_.reset(
       new message_filters::Subscriber<nav_msgs::Odometry>(nh, odom_topic, 5));
   sync_cloud_odom_.reset(new message_filters::Synchronizer<SyncPolicyCloudOdom>(
-      SyncPolicyCloudOdom(10), *cloud_sub_, *odom_sub_));
+      SyncPolicyCloudOdom(cloud_odom_sync_queue), *cloud_sub_, *odom_sub_));
   sync_cloud_odom_->registerCallback(
       boost::bind(&FastExplorationFSM::CloudOdomCallback, this, _1, _2));
 }

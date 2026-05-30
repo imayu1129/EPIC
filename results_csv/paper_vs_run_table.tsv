@@ -1,0 +1,5 @@
+run_id	map	paper_scene	paper_exp_time_sec	paper_avg_vel_mps	paper_avg_tm_s	paper_max_tm_s	paper_exp_finished	run_exp_time_sec	run_avg_vel_mps	run_avg_tm_s	run_max_tm_s	run_exp_finished	delta_exp_time_sec	delta_avg_vel_mps	delta_avg_tm_s	delta_max_tm_s	delta_exp_time_pct	delta_avg_vel_pct	delta_avg_tm_pct	delta_max_tm_pct
+20260529_234506	garage	garage	716.9	3.10	0.05	0.10	true	822.527	3.314	0.070653	0.189508	true	105.627	0.214	0.020653	0.089508	14.73	6.90	41.31	89.51
+20260530_003626	garage	garage	716.9	3.10	0.05	0.10	true	720.480	3.320	0.060900	0.121249	true	3.580	0.220	0.010900	0.021249	0.50	7.10	21.80	21.25
+20260530_145536	cave	cave	1288.2	2.68	0.09	0.18	true	1174.632	2.851	0.095851	0.160902	true	-113.568	0.171	0.005851	-0.019098	-8.82	6.38	6.50	-10.61
+20260530_154002	cave	cave	1288.2	2.68	0.09	0.18	true	1208.978	2.877	0.101733	0.179941	true	-79.222	0.197	0.011733	-0.000059	-6.15	7.35	13.04	-0.03

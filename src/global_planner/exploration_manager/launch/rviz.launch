@@ -1,4 +1,14 @@
 <launch>
-  <node name="rvizvisualisation" pkg="rviz" type="rviz" output="log" args="-d $(find plan_manage)/config/traj.rviz" />
+  <arg name="show_first_person" default="false" />
+  <arg name="first_person_topic" default="/quad0_pcl_render_node/depth_img" />
+  <arg name="rviz_config" default="$(find plan_manage)/config/traj.rviz" />
+
+  <node name="rvizvisualisation" pkg="rviz" type="rviz" output="log" args="-d $(arg rviz_config) -stylesheet $(find epic_planner)/config/rviz_dark_toolbar.qss" />
+
+  <group if="$(arg show_first_person)">
+    <node name="first_person_view" pkg="rqt_image_view" type="rqt_image_view" output="screen"
+      args="$(arg first_person_topic)" />
+  </group>
+
   <node pkg="tf" type="static_transform_publisher" name="tf_53" args="0 0 0 0 0 0 world navigation 100" />
 </launch>

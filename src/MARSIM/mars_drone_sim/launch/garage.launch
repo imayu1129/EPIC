@@ -1,5 +1,5 @@
 <launch>
-        <arg name="use_gpu_" value="true" />
+        <arg name="use_gpu_" default="true" />
 
         <arg name="sensing_horizon" />
 

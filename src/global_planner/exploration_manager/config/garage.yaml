@@ -1,11 +1,12 @@
 #topic param:
 odometry_topic: /quad_0/lidar_slam/odom
 cloud_topic: /quad0_pcl_render_node/cloud
+cloud_odom_sync_queue: 100
 global_planning/w_vdir: 1.2
 global_planning/w_yawdir: 0.0
 global_planning/w_firstnode: 0.2
 #viz
-view_graph: false
+view_graph: true
 FrontierManager/view_cluster: false
 FrontierManager/view_frt: true
 # graph

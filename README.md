@@ -63,6 +63,10 @@ Please kindly star ⭐️ this project if it helps you. We take great efforts to
 
 ## 🛠️ Installation
 
+### Reproduction Guide (English)
+
+For a step-by-step execution guide prepared for lab handoff (GPU runs, repeated trials, and result table workflow), see [README_SENIOR.md](README_SENIOR.md).
+
 ### Test Environment
 * Ubuntu 20.04
 * ROS Noetic
