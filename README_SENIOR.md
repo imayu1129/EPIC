@@ -63,6 +63,20 @@ The run wrapper:
 
 ## 6) Recommended Repetition (5 runs each)
 
+One command (recommended):
+
+```bash
+RUNS=5 FINISH_TIMEOUT_SEC=1500 ./scripts/run_repro_suite.sh cave garage
+```
+
+This command:
+
+- forces GPU usage through `run_until_finish.sh`
+- runs 5 FINISH-targeted trials for each map
+- writes an auto summary to `results_csv/repro_summary_latest.tsv`
+
+Manual alternative:
+
 ```bash
 for i in $(seq 1 5); do
   echo "[cave] run ${i}/5"
@@ -90,6 +104,8 @@ Aggregated tables:
 - `results_csv/paper_table_i_reference.tsv`
 
 ## 8) Compute Mean Over Last 5 GPU FINISH Runs Per Map
+
+If you already used `run_repro_suite.sh`, this is optional because `results_csv/repro_summary_latest.tsv` is generated automatically.
 
 ```bash
 python3 - <<'PY'
