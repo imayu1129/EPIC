@@ -2,4 +2,15 @@ paper_scene	method	exp_time_sec↓	avg_vel_mps↑	avg_tm_s↓	max_tm_s↓	exp_fi
 cave	Proposed	1288.2	2.68	0.09	0.18	Yes	arXiv:2410.14203v2 Table I
 garage	Proposed	716.9	3.10	0.05	0.10	Yes	arXiv:2410.14203v2 Table I
 campus	Proposed	908.2	2.58	0.08	0.24	Yes	arXiv:2410.14203v2 Table I
-cave	Measured	1208.978	2.877	0.101733	0.179941	Yes	Measured run_id=20260530_154002 (FINISH)
+cave	Measured(avg n=5)	1137.722	2.849	0.096992	0.159009	Yes	Average of FINISH runs: 20260530_164400,20260530_170258,20260530_172143,20260530_174111,20260530_175950
+- cave	Measured(run)	1098.050	2.843	0.097747	0.146336	Yes	run_id=20260530_164400 (FINISH)
+- cave	Measured(run)	1107.084	2.869	0.096389	0.153332	Yes	run_id=20260530_170258 (FINISH)
+- cave	Measured(run)	1149.325	2.804	0.097663	0.160285	Yes	run_id=20260530_172143 (FINISH)
+- cave	Measured(run)	1100.404	2.844	0.097464	0.160101	Yes	run_id=20260530_174111 (FINISH)
+- cave	Measured(run)	1233.745	2.887	0.095695	0.174991	Yes	run_id=20260530_175950 (FINISH)
+garage	Measured(avg n=5)	744.025	3.307	0.060673	0.127184	Yes	Average of FINISH runs: 20260530_184601,20260530_185807,20260530_191117,20260530_192316,20260530_193534
+- garage	Measured(run)	708.341	3.286	0.055142	0.114425	Yes	run_id=20260530_184601 (FINISH)
+- garage	Measured(run)	772.232	3.327	0.063906	0.119234	Yes	run_id=20260530_185807 (FINISH)
+- garage	Measured(run)	701.150	3.309	0.058171	0.122627	Yes	run_id=20260530_191117 (FINISH)
+- garage	Measured(run)	720.648	3.303	0.065886	0.174568	Yes	run_id=20260530_192316 (FINISH)
+- garage	Measured(run)	817.755	3.308	0.060258	0.105065	Yes	run_id=20260530_193534 (FINISH)

@@ -18,7 +18,7 @@ TRIGGER_X="${TRIGGER_X:-3.0}"
 TRIGGER_Y="${TRIGGER_Y:-0.0}"
 TRIGGER_Z="${TRIGGER_Z:-1.0}"
 TRIGGER_RETRY_SEC="${TRIGGER_RETRY_SEC:-0.2}"
-TRIGGER_TIMEOUT_SEC="${TRIGGER_TIMEOUT_SEC:-6}"
+TRIGGER_TIMEOUT_SEC="${TRIGGER_TIMEOUT_SEC:-20}"
 FINISH_TIMEOUT_SEC="${FINISH_TIMEOUT_SEC:-1500}"
 IGNORE_SIGINT_UNTIL_FINISH="${IGNORE_SIGINT_UNTIL_FINISH:-true}"
 
@@ -204,6 +204,27 @@ trigger_with_retry() {
   deadline_ms=$((start_ms + TRIGGER_TIMEOUT_SEC * 1000))
   attempts=0
 
+  # Avoid startup race: publish trigger only after exploration_node subscribes.
+  while true; do
+    if rostopic info /waypoint_generator/waypoints 2>/dev/null | grep -q "/exploration_node"; then
+      break
+    fi
+
+    now_ms="$(date +%s%3N)"
+    if (( now_ms >= deadline_ms )); then
+      TRIGGER_ACK_SEC="$(python3 - <<PY
+elapsed_ms = ${now_ms} - ${start_ms}
+print(f"{elapsed_ms/1000.0:.3f}")
+PY
+)"
+      TRIGGER_ATTEMPTS="0"
+      echo "[run_until_finish] trigger subscriber (/exploration_node) was not ready within ${TRIGGER_ACK_SEC}s." >&2
+      return 1
+    fi
+
+    sleep "${TRIGGER_RETRY_SEC}"
+  done
+
   while true; do
     attempts=$((attempts + 1))
 
@@ -213,6 +234,21 @@ trigger_with_retry() {
     # Direct fallback to FSM input topic
     rostopic pub -1 /waypoint_generator/waypoints nav_msgs/Path "{header: {frame_id: 'world'}, poses: [{header: {frame_id: 'world'}, pose: {position: {x: ${TRIGGER_X}, y: ${TRIGGER_Y}, z: ${TRIGGER_Z}}, orientation: {x: 0.0, y: 0.0, z: 0.0, w: 1.0}}}]}" >/dev/null 2>&1 || true
 
+    # Trigger waypoint_generator pattern path as an additional startup fallback.
+    rostopic pub -1 /traj_start_trigger geometry_msgs/PoseStamped "{header: {frame_id: 'world'}, pose: {position: {x: ${TRIGGER_X}, y: ${TRIGGER_Y}, z: ${TRIGGER_Z}}, orientation: {x: 0.0, y: 0.0, z: 0.0, w: 1.0}}}" >/dev/null 2>&1 || true
+
+    if grep -q "Triggered!" "${LOG_FILE}" 2>/dev/null; then
+      now_ms="$(date +%s%3N)"
+      TRIGGER_ACK_SEC="$(python3 - <<PY
+elapsed_ms = ${now_ms} - ${start_ms}
+print(f"{elapsed_ms/1000.0:.3f}")
+PY
+)"
+      TRIGGER_ATTEMPTS="${attempts}"
+      echo "[run_until_finish] Trigger callback confirmed in ${TRIGGER_ACK_SEC}s with ${TRIGGER_ATTEMPTS} attempts"
+      return 0
+    fi
+
     now_ms="$(date +%s%3N)"
     if (( now_ms >= deadline_ms )); then
       TRIGGER_ACK_SEC="$(python3 - <<PY
@@ -221,8 +257,8 @@ print(f"{elapsed_ms/1000.0:.3f}")
 PY
 )"
       TRIGGER_ATTEMPTS="${attempts}"
-      echo "[run_until_finish] Trigger burst sent for ${TRIGGER_ACK_SEC}s with ${TRIGGER_ATTEMPTS} attempts"
-      return 0
+      echo "[run_until_finish] Trigger callback was not observed within ${TRIGGER_ACK_SEC}s (${TRIGGER_ATTEMPTS} attempts)." >&2
+      return 1
     fi
 
     sleep "${TRIGGER_RETRY_SEC}"
